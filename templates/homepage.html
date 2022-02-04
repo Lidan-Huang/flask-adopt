@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<h1>Adoption Agency</h1>
+
+{% for pet in pets %}
+<div>
+    <img src={{ pet.photo_url }} alt="This is a pet">
+    <p>{{ pet.name }} is {{ pet.available }}!</p>
+</div>
+{% endfor %}
+<a class="btn btn-success" href="">Add a Pet</a>
+{% endblock %}
