@@ -28,3 +28,8 @@ class Pet(db.Model):
     age = db.Column(db.Text, nullable=False)
     notes = db.Column(db.Text, nullable=True)
     available = db.Column(db.Boolean, default=True, nullable=False)
+
+
+    def get_availability(self):
+        if(self.available == True): return "available"
+        else: return "unavailable"
