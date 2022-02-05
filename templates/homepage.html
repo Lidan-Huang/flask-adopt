@@ -6,7 +6,7 @@
 {% for pet in pets %}
 <div>
     <img src={{ pet.photo_url }} alt="This is a pet">
-    <p>{{ pet.name }} is {{ pet.get_availability() }}!</p>
+    <a href="/{{ pet.id }}">{{ pet.name }} is {{ pet.get_availability() }}!</a>
 </div>
 {% endfor %}
 <a class="btn btn-success" href="/add">Add a Pet</a>

@@ -6,7 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Pet
 
-from forms import AddPetForm
+from forms import AddPetForm, EditPetForm
 
 app = Flask(__name__)
 
@@ -27,11 +27,8 @@ toolbar = DebugToolbarExtension(app)
 
 
 @app.get("/")
-def get_homepage():
-    # dog = Pet(name="Dog", species="Dog", age="5")
-    # breakpoint()
-    # db.session.add(dog)
-    # db.session.commit()
+def get_homepage(): 
+    """Get homepage"""
 
     pets = Pet.query.all()
     return render_template("homepage.html", pets=pets)
@@ -39,6 +36,11 @@ def get_homepage():
 
 @app.route('/add', methods=["GET", "POST"])
 def show_pet_add_form():
+    """Show add-pet-form and add new pet to
+    database after form inputs are validated.
+    Redirect to homepage if pet has been added,
+    otherwise refresh add-pet-form page"""
+
     form = AddPetForm()
 
     if form.validate_on_submit():
@@ -61,3 +63,23 @@ def show_pet_add_form():
 
     else:
         return render_template('pet_add_form.html', form=form)
+
+@app.route('/<int:pet_id>', methods=["GET", "POST"])
+def show_details_and_edit_form(pet_id):
+    """Show pet details and pet-edit-form and update
+    pet details to database. Return to homepage if form 
+    inputs have been validated, else refresh pet-edit-form page"""
+
+    pet = Pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj=pet)
+
+    if form.validate_on_submit():
+        pet.photo_url = form.photo_url.data
+        pet.notes = form.notes.data
+        pet.available = form.available.data
+
+        db.session.commit()
+        
+        return redirect('/')
+    else:
+        return render_template('pet_display_and_edit.html', form=form, pet=pet)

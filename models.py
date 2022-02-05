@@ -17,7 +17,7 @@ def connect_db(app):
 
 class Pet(db.Model):
     """Pet docstring"""
-    __table_name__ = "pets"
+    __tablename__ = "pets"
 
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -31,5 +31,6 @@ class Pet(db.Model):
 
 
     def get_availability(self):
-        if(self.available == True): return "available"
-        else: return "unavailable"
+        """Get pet instance availability and return as String"""
+        if(self.available == True): return "Available"
+        else: return "Unavailable"

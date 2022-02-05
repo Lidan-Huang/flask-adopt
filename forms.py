@@ -1,6 +1,7 @@
 """Forms for adopt app."""
+from xmlrpc.client import Boolean
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField
+from wtforms import StringField, SelectField, BooleanField
 from wtforms.validators import InputRequired, Optional, URL
 
 
@@ -20,9 +21,13 @@ class AddPetForm(FlaskForm):
                       choices=[('baby', 'Baby'),
                                ('young', 'Young'),
                                ('adult', 'Adult'),
-                               ('senior', 'Senior')])
-    notes = StringField("Notes")
+                               ('senior', 'Senior')]) #TODO validators
+    notes = StringField("Notes") #TODO validators
 
 
 class EditPetForm(FlaskForm):
-    """Edit already showed pet"""
+    """Form to edit pet details"""
+    photo_url = StringField("Photo URL",
+                            validators=[Optional(), URL()])
+    notes = StringField("Notes") #TODO validators  
+    available = BooleanField('Available')                     
